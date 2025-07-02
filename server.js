@@ -114,6 +114,7 @@ app.use(express.static(publicPath));
 
 // Catch-all: serve index.html for anything else (Express 5 compatible)
 app.use((req, res) => {
+  console.log('DEBUG: Serving index from', path.join(publicPath, 'index.html'));
     res.sendFile(path.join(publicPath, 'index.html'));
 });
 
