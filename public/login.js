@@ -8,7 +8,7 @@ async function login() {
     }
 
     try {
-        const res = await fetch('http://localhost:5001/api/login', {
+        const res = await fetch('https://to-do-web-app-6uh4.onrender.com/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -38,7 +38,7 @@ async function register() {
     }
 
     try {
-        const res = await fetch('http://localhost:5001/api/register', {
+        const res = await fetch('https://to-do-web-app-6uh4.onrender.com/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })

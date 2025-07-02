@@ -19,7 +19,7 @@ window.onload = function() {
 
 // Fetch all tasks from backend
 async function fetchTasks() {
-    const res = await fetch('http://localhost:5001/api/tasks', {
+const res = await fetch('https://to-do-web-app-6uh4.onrender.com/api/tasks', {
         headers: { 'Authorization': token }
     });
     tasks = await res.json();
@@ -35,7 +35,8 @@ async function addTask() {
     addSound.play();
     confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
 
-    const res = await fetch('http://localhost:5001/api/tasks', {
+    const res = await fetch('https://to-do-web-app-6uh4.onrender.com/api/tasks', {
+
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ async function addTask() {
 
 // Toggle done
 async function toggleTask(id) {
-    await fetch(`http://localhost:5001/api/tasks/${id}`, {
+    await fetch(`https://to-do-web-app-6uh4.onrender.com/api/tasks/${id}`, {
         method: 'PUT',
         headers: { 'Authorization': token }
     });
@@ -63,7 +64,7 @@ async function toggleTask(id) {
 // Delete task
 async function deleteTask(id) {
     deleteSound.play();
-    await fetch(`http://localhost:5001/api/tasks/${id}`, {
+    await fetch(`https://to-do-web-app-6uh4.onrender.com/api/tasks/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': token }
     });
