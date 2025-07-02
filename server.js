@@ -109,7 +109,7 @@ app.delete("/api/tasks/:id", auth, async (req, res) => {
 });
 
 // Serve static frontend
-const publicPath = path.join(__dirname, '../public');
+const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
 // Catch-all: serve index.html for anything else (Express 5 compatible)
