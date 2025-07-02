@@ -2,17 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const path = require('path');
 
 const app = express();
 
-// ✅ Allow all origins + methods
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// ✅ Handle preflight OPTIONS requests
 app.use(express.json());
 
 // ✅ Connect to MongoDB
@@ -20,7 +19,6 @@ mongoose.connect("mongodb+srv://itspriyamroy21:priyamroy21@todo-cluster.dzxxbg4.
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error(err));
 
-// ✅ Secret key for JWT
 const SECRET_KEY = "mysecrettoken";
 
 // ✅ User model
@@ -38,37 +36,7 @@ const taskSchema = new mongoose.Schema({
 });
 const Task = mongoose.model("Task", taskSchema);
 
-// ✅ Register route
-app.post("/api/register", async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const user = new User({ username, password });
-        await user.save();
-        res.json({ message: "User registered successfully" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Registration failed" });
-    }
-});
-
-// ✅ Login route
-app.post("/api/login", async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const user = await User.findOne({ username });
-        if (!user || user.password !== password) {
-            return res.status(401).json({ message: "Invalid credentials" });
-        }
-        // generate token
-        const token = jwt.sign({ userId: user._id }, SECRET_KEY);
-        res.json({ token });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Login failed" });
-    }
-});
-
-// ✅ Middleware to verify token
+// ✅ Auth middleware
 function auth(req, res, next) {
     const header = req.headers.authorization;
     if (!header) return res.status(401).json({ message: "Unauthorized" });
@@ -82,20 +50,45 @@ function auth(req, res, next) {
     }
 }
 
-// ✅ Get all tasks for logged in user
+// ✅ Routes
+app.post("/api/register", async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = new User({ username, password });
+        await user.save();
+        res.json({ message: "User registered successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Registration failed" });
+    }
+});
+
+app.post("/api/login", async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username });
+        if (!user || user.password !== password) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+        const token = jwt.sign({ userId: user._id }, SECRET_KEY);
+        res.json({ token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Login failed" });
+    }
+});
+
 app.get("/api/tasks", auth, async (req, res) => {
     const tasks = await Task.find({ userId: req.userId });
     res.json(tasks);
 });
 
-// ✅ Add task
 app.post("/api/tasks", auth, async (req, res) => {
     const task = new Task({ text: req.body.text, done: false, userId: req.userId });
     await task.save();
     res.json(task);
 });
 
-// ✅ Toggle done
 app.put("/api/tasks/:id", auth, async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task || task.userId.toString() !== req.userId) {
@@ -106,7 +99,6 @@ app.put("/api/tasks/:id", auth, async (req, res) => {
     res.json(task);
 });
 
-// ✅ Delete task
 app.delete("/api/tasks/:id", auth, async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task || task.userId.toString() !== req.userId) {
@@ -116,15 +108,14 @@ app.delete("/api/tasks/:id", auth, async (req, res) => {
     res.sendStatus(204);
 });
 
-const path = require('path');
+// ✅ Serve static frontend if exists (safe)
+const publicPath = path.join(__dirname, '../public');
+app.use(express.static(publicPath));
 
-// Serve static files from public
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Catch-all: serve index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile(path.join(publicPath, 'index.html'));
 });
 
-// ✅ Start server
-app.listen(5001, () => console.log("Server started on http://localhost:5001"));
+// ✅ Use Render / Railway port or default
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
