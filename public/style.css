@@ -1,0 +1,164 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: url('bunny.jpg') repeat;
+  background-attachment: fixed;
+  background-size: 250px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0,0,0,0.8);   /* subtle shadow for visibility */
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.85);          /* more solid dark */
+  padding: 28px 30px;
+  border-radius: 18px;
+  width: 360px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00e0ff;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(0,0,0,0.7);
+}
+
+.input-section {
+  display: flex;
+  margin-bottom: 18px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid #00e0ff;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  text-shadow: 0 0 2px rgba(0,0,0,0.7);
+}
+
+input[type="text"]::placeholder {
+  color: #dde5ea;
+}
+
+input[type="text"]:focus {
+  border-color: #00c6ff;
+  box-shadow: 0 0 5px #00c6ff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  padding: 8px 14px;
+  margin-left: 10px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,198,255,0.6);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  padding: 9px 12px;
+  background: rgba(0, 0, 0, 0.6);          /* darker for visibility */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+  animation: popIn 0.3s ease;
+  text-shadow: 0 0 2px rgba(0,0,0,0.7);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+li:hover {
+  transform: scale(1.02);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+li.done::before {
+  content: "✔️ ";
+  margin-right: 5px;
+}
+
+li.done {
+  color: #a7d7ec;
+  background: rgba(0, 0, 0, 0.4);
+  text-decoration: line-through;
+}
+
+li button {
+  background: #e74c3c;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+
+li button:hover {
+  background: #c0392b;
+}
+
+.progress-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  margin-top: 15px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  transition: width 0.3s ease;
+}

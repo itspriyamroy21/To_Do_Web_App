@@ -1,0 +1,47 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: url('bunny.jpg') repeat;
+  background-attachment: fixed;
+  background-size: 250px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0,0,0,0.8);
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 28px 30px;
+  border-radius: 18px;
+  width: 300px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #00e0ff;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 2px solid #00e0ff;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+button {
+  width: 48%;
+  padding: 8px;
+  margin: 5px 1%;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
