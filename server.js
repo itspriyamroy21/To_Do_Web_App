@@ -14,21 +14,21 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Connect to MongoDB
+// Connect to MongoDB
 mongoose.connect("mongodb+srv://itspriyamroy21:priyamroy21@todo-cluster.dzxxbg4.mongodb.net/?retryWrites=true&w=majority&appName=todo-cluster")
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error(err));
 
 const SECRET_KEY = "mysecrettoken";
 
-// ✅ User model
+// User model
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true },
     password: String
 });
 const User = mongoose.model("User", userSchema);
 
-// ✅ Task model
+// Task model
 const taskSchema = new mongoose.Schema({
     text: String,
     done: Boolean,
@@ -36,7 +36,7 @@ const taskSchema = new mongoose.Schema({
 });
 const Task = mongoose.model("Task", taskSchema);
 
-// ✅ Auth middleware
+// Auth middleware
 function auth(req, res, next) {
     const header = req.headers.authorization;
     if (!header) return res.status(401).json({ message: "Unauthorized" });
@@ -50,7 +50,7 @@ function auth(req, res, next) {
     }
 }
 
-// ✅ Routes
+// Routes
 app.post("/api/register", async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -108,16 +108,15 @@ app.delete("/api/tasks/:id", auth, async (req, res) => {
     res.sendStatus(204);
 });
 
-// ✅ Serve static frontend if exists (safe)
-// ✅ Serve static frontend if exists
+// Serve static frontend
 const publicPath = path.join(__dirname, '../public');
 app.use(express.static(publicPath));
 
-app.get('/*', (req, res) => {
+// Catch-all: serve index.html for anything else (Express 5 compatible)
+app.use((req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
 
-
-// ✅ Use Render / Railway port or default
+// Start server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
