@@ -15,7 +15,8 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://itspriyamroy21:itspriyam.roy21@todo-cluster.dzxxbg4.mongodb.net/todo?retryWrites=true&w=majority&appName=todo-cluster")
+mongoose.connect(
+  "mongodb+srv://itspriyamroy21:itspriyam.roy21@todo-cluster.dzxxbg4.mongodb.net/todo_app?retryWrites=true&w=majority&appName=todo-cluster")
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error(err));
 
